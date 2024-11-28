@@ -1,0 +1,146 @@
+# Azure Platform Configuration for NYC TLC Data Pipeline
+
+resource_group:
+  name: nyc-tlc-rg
+  location: eastus
+  tags:
+    environment: production
+    project: nyc-tlc-pipeline
+
+storage:
+  account_name: nyctlcdata
+  account_tier: Standard
+  replication: LRS
+  containers:
+    raw: raw-data
+    processed: processed-data
+    archive: archive-data
+  lifecycle_management:
+    - rule_name: archive_old_data
+      enabled: true
+      days_after_creation: 90
+      action: MoveToCool
+    - rule_name: delete_old_data
+      enabled: true
+      days_after_creation: 365
+      action: Delete
+
+synapse:
+  workspace_name: nyc-tlc-synapse
+  sql_admin:
+    login: sqladmin
+    password_key_vault_secret: synapse-sql-admin-password
+  spark_pool:
+    name: tlcsparkpool
+    node_size: Medium
+    min_nodes: 3
+    max_nodes: 10
+  sql_pool:
+    name: tlcsqlpool
+    performance_level: DW100c
+    auto_pause_delay_minutes: 60
+  tables:
+    yellow_trips:
+      distribution: HASH
+      distribution_column: pickup_location_id
+      partition_column: pickup_datetime
+      index_columns:
+        - pickup_location_id
+        - payment_type
+      schema:
+        - name: vendor_id
+          type: nvarchar(50)
+        - name: pickup_datetime
+          type: datetime2
+        - name: dropoff_datetime
+          type: datetime2
+        - name: passenger_count
+          type: int
+        - name: trip_distance
+          type: float
+        - name: pickup_location_id
+          type: nvarchar(50)
+        - name: dropoff_location_id
+          type: nvarchar(50)
+        - name: payment_type
+          type: nvarchar(50)
+        - name: fare_amount
+          type: float
+        - name: total_amount
+          type: float
+
+databricks:
+  workspace_name: nyc-tlc-databricks
+  sku: standard
+  cluster_config:
+    cluster_name: tlc-processing
+    spark_version: 9.1.x-scala2.12
+    node_type_id: Standard_DS3_v2
+    autoscale:
+      min_workers: 2
+      max_workers: 8
+    spark_conf:
+      spark.speculation: true
+      spark.scheduler.mode: FAIR
+
+data_factory:
+  name: nyc-tlc-adf
+  pipelines:
+    data_ingestion:
+      name: tlc-data-ingestion
+      schedule: "0 0 * * *"  # Daily at midnight
+      timeout_minutes: 60
+    data_processing:
+      name: tlc-data-processing
+      schedule: "0 2 * * *"  # Daily at 2 AM
+      timeout_minutes: 120
+
+monitoring:
+  log_analytics:
+    workspace_name: tlc-logs
+    retention_days: 30
+  alerts:
+    - name: high_processing_time
+      description: "Alert when data processing takes too long"
+      severity: 2
+      threshold: 3600  # 1 hour
+      evaluation_frequency: PT5M
+      window_size: PT15M
+    - name: pipeline_failure
+      description: "Alert on pipeline failure"
+      severity: 1
+      evaluation_frequency: PT5M
+      window_size: PT15M
+
+key_vault:
+  name: tlc-secrets
+  sku: standard
+  secrets:
+    - name: storage-connection-string
+      value_reference: storage_account_connection_string
+    - name: synapse-sql-admin-password
+      value_reference: synapse_sql_password
+    - name: databricks-token
+      value_reference: databricks_access_token
+
+networking:
+  vnet:
+    name: tlc-vnet
+    address_space: 10.0.0.0/16
+    subnets:
+      - name: synapse-subnet
+        address_prefix: 10.0.1.0/24
+      - name: databricks-subnet
+        address_prefix: 10.0.2.0/24
+      - name: adf-subnet
+        address_prefix: 10.0.3.0/24
+  nsg:
+    name: tlc-nsg
+    rules:
+      - name: allow-internal
+        priority: 100
+        direction: Inbound
+        access: Allow
+        protocol: "*"
+        source_address_prefix: VirtualNetwork
+        destination_port_range: "*"

@@ -1,0 +1,124 @@
+# GCP Platform Configuration for NYC TLC Data Pipeline
+
+project:
+  id: scenic-flux-441021-t4
+  name: nyc-tlc-pipeline
+  region: us-central1
+  zone: us-central1-a
+
+storage:
+  bucket_name: nyc_tlc_data_bucket
+  data_folders:
+    raw: raw/
+    processed: processed/
+    archive: archive/
+  lifecycle_rules:
+    - action: SetStorageClass
+      storage_class: NEARLINE
+      condition:
+        age_days: 90
+    - action: SetStorageClass
+      storage_class: COLDLINE
+      condition:
+        age_days: 365
+
+bigquery:
+  dataset_id: nyc_tlc_data
+  location: US
+  tables:
+    yellow_trips:
+      partition_field: pickup_datetime
+      clustering_fields: 
+        - pickup_location_id
+        - payment_type
+      schema:
+        - name: vendor_id
+          type: STRING
+        - name: pickup_datetime
+          type: TIMESTAMP
+        - name: dropoff_datetime
+          type: TIMESTAMP
+        - name: passenger_count
+          type: INTEGER
+        - name: trip_distance
+          type: FLOAT
+        - name: pickup_location_id
+          type: STRING
+        - name: dropoff_location_id
+          type: STRING
+        - name: payment_type
+          type: STRING
+        - name: fare_amount
+          type: FLOAT
+        - name: total_amount
+          type: FLOAT
+
+dataproc:
+  cluster_name: tlc-processing-cluster
+  master_config:
+    machine_type: n1-standard-4
+    disk_size_gb: 100
+    num_instances: 1
+  worker_config:
+    machine_type: n1-standard-4
+    disk_size_gb: 100
+    num_instances: 2
+  software_config:
+    image_version: 2.0
+    optional_components:
+      - JUPYTER
+      - DOCKER
+
+composer:
+  environment_name: tlc-airflow
+  node_count: 3
+  node_config:
+    location: us-central1
+    machine_type: n1-standard-2
+    disk_size_gb: 100
+  software_config:
+    image_version: composer-2.0.0
+    python_version: "3"
+    env_variables:
+      BUCKET_NAME: nyc_tlc_data_bucket
+      PROJECT_ID: scenic-flux-441021-t4
+      ENVIRONMENT: production
+
+monitoring:
+  notification_channels:
+    - type: email
+      display_name: "Data Pipeline Alerts"
+      email_address: "admin@example.com"
+  alert_policies:
+    - display_name: "Processing Time Alert"
+      conditions:
+        - display_name: "High Processing Time"
+          threshold_value: 3600  # 1 hour
+          duration: 300s  # 5 minutes
+          comparison: COMPARISON_GT
+    - display_name: "Error Rate Alert"
+      conditions:
+        - display_name: "High Error Rate"
+          threshold_value: 0.01  # 1%
+          duration: 300s
+          comparison: COMPARISON_GT
+
+security:
+  service_account:
+    name: tlc-pipeline-sa
+    display_name: "TLC Pipeline Service Account"
+    roles:
+      - roles/storage.admin
+      - roles/bigquery.admin
+      - roles/dataproc.admin
+      - roles/monitoring.admin
+  vpc_config:
+    network: tlc-vpc
+    subnetwork: tlc-subnet
+    ip_range: 10.0.0.0/24
+    firewall_rules:
+      - name: allow-internal
+        allowed:
+          - protocol: tcp
+            ports: ["0-65535"]
+        source_ranges: ["10.0.0.0/24"]

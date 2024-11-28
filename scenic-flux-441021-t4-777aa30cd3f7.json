@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "scenic-flux-441021-t4",
+  "private_key_id": "777aa30cd3f70fc3ff8a2070aa2785f526223d83",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC1IlhvCpU/rz2H\nX/V+Zr2h8pg0d5P0i5fwQgFX/TR4SXqMeAkY5itOgzya3DFycm2rqznf992q16fi\nV4eSEsQdK9NFKU/8I/cls3YHp5EAIvLvZSLFy+NnL0PdffK0VnJGeGTLAGXl1DHQ\ncXRL+LdfxabR466suY0X6N6rUQuIDxBMKUKumbyZ8huEpkL7LfuewGiA0Y3zfQV1\nRt5TirBF+Gyli1tY7F96vGtSFrWRsMDdQtSODBzmFIYTO5j6pHOMr9p/kUxmZmtG\nb7fnSxCCmKD1GYcR08EoSEnKE8TaVI+mtwtW3yWrriVarycE7m9XEOlal1i2uimK\ntf2OnJZPAgMBAAECggEADdtGQ5xeJYSM4u3K1HQcnqZ10VGyflstcOJDwwzqNid8\n2gEWxRJajsOIX9pnZ/dr/112bHVEPl0ICU8j3l9UJF0laN2LsmC39+jeJyDA/W8v\nAXRNsC70QwEBIpEPf487Z7uvDj6GDQpqEyWSvXsV4Bw5MkZGJw18xy731cg55xsK\n8t1rf7NAVTnfWw+nhmqNNjVIfzAvqheiMq1hHbAychyIUu/Y5MrD5H5kf7CI4seO\nsIBb1iDroQntRKsuo/QaZ2CiBWErpI3zrYZ/rdyITvvvNe/CnkFwq/i1YaQKrhjj\n5uBLJGO0QuIN9wEebpLQZbhSnRsUouGw3XKGP7lLiQKBgQDbU274+umn+dM/Y4+P\noMwPFQ686IQkvtpDMOYelkGrvXyn5FFRBb5An1vkpnaagECYE261StdNCAFnhJNX\neVQbRm6OBNe6FPvWtXOzoBCLecdubARDbvyIaX27B0i9vhI50X6pmO21WqjdxL3N\nrAd9LAje3HoEo5lTj9lOWB1dVwKBgQDTbA7noYW/lShASn/iWiYZIJvBEWmUSa8G\nRBfXwruerIjReIfxuzyWVECJOCWNggHq8vtyv/AeyT0NHVpYRZwaT8Axfg9HODzk\ntaNWPXcFBVUhyy85/AsUNv9jke43/srtMWcnXlzXGaCrYjZp7sHGM6zaPhknjOuX\nS0phowb7yQKBgB/W6uNGOaljASHQqESniTgfTHZsItLaygC7Fo0WLw5pgbE12gAz\nHz1uZP66k7k2KSpql8XFyZ+rK9kFTAaE3IrhHKeNWGvxI+Y1jUhkUkKNOUB0eeH4\nOLzs443FLvAsqaSvHv4r70ZGlQEs0IkNEkE/pUIFK8mEnnudBGT1Mb4dAoGBAJ6b\n/HqNVJerwKyqt1IKq3ZCXlbzRy+2L5YV04VMVBDwAxySvfn9q7BjuJ64/oMwu1uV\nukoV8IBIHIMQOEzsu/WJSvhWSAP4DsbN9aGnLvkXTQyzL9TiXzVlJSd/vSVJAtf7\nLhX81s2QLlcksQm70qds8QoxeBGRyNSR6VViRsTxAoGAGajddJB4dzcs8sPW7YHC\nU+To5kZA626A8CjaRC/MUw8kIcxTEOmtGkPNr6NAOrfTDm8nCnJydCeexJIVSS5Y\nLScmj0HnhQjK6t7zAteH6Ow0ky5aBJ897V52+ib/ztMx6rZkPhjMtWbXJqj5b2fI\niXnveSWeW+RIdZGAXX6wh1s=\n-----END PRIVATE KEY-----\n",
+  "client_email": "databricks-compute@scenic-flux-441021-t4.iam.gserviceaccount.com",
+  "client_id": "106594375471374251123",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/databricks-compute%40scenic-flux-441021-t4.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

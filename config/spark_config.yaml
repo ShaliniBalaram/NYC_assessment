@@ -1,0 +1,139 @@
+# Spark Configuration for NYC TLC Data Pipeline
+
+spark:
+  app_name: nyc_tlc_data_processing
+  master: yarn
+  deploy_mode: cluster
+  driver:
+    memory: 4g
+    cores: 2
+  executor:
+    memory: 8g
+    cores: 4
+    instances: 4
+  dynamic_allocation:
+    enabled: true
+    min_executors: 2
+    max_executors: 10
+    initial_executors: 4
+  shuffle:
+    partitions: 200
+    compress: true
+    compression_codec: lz4
+  memory:
+    fraction: 0.6
+    storage_fraction: 0.5
+    offHeap:
+      enabled: true
+      size: 2g
+  sql:
+    broadcastTimeout: 300
+    autoBroadcastJoinThreshold: 10485760  # 10MB
+    adaptive:
+      enabled: true
+      coalescePartitions:
+        enabled: true
+      fetchShuffleBlocks:
+        enabled: true
+  streaming:
+    concurrentJobs: 4
+    backpressure:
+      enabled: true
+    checkpointLocation: gs://nyc_tlc_data_bucket/checkpoints
+  locality:
+    wait: 3s
+  speculation: true
+
+yarn:
+  scheduler:
+    maximum-allocation-mb: 12288
+    minimum-allocation-mb: 1024
+    fair:
+      preemption: true
+  nodemanager:
+    resource:
+      memory-mb: 49152
+      cpu-vcores: 16
+  log-aggregation-enable: true
+
+hadoop:
+  tmp_dir: /tmp/hadoop-${user.name}
+  fs:
+    defaultFS: gs://nyc_tlc_data_bucket
+    gs:
+      project.id: scenic-flux-441021-t4
+      impl: com.google.cloud.hadoop.fs.gcs.GoogleHadoopFileSystem
+  mapreduce:
+    framework.name: yarn
+    map.memory.mb: 4096
+    reduce.memory.mb: 8192
+    task.io.sort.mb: 256
+
+optimization:
+  broadcast_threshold: 10485760  # 10MB
+  partition_column: pickup_datetime
+  partition_granularity: month
+  coalesce_threshold: 100
+  repartition_columns:
+    - pickup_location_id
+    - payment_type
+  cache_tables:
+    - yellow_trips_raw
+    - location_lookup
+  checkpoint_interval: 100000
+
+monitoring:
+  metrics:
+    enabled: true
+    reporters:
+      - class: org.apache.spark.metrics.sink.GraphiteSink
+        period: 10
+        unit: seconds
+        protocol: plaintext
+        host: graphite
+        port: 2003
+        prefix: spark
+  eventLog:
+    enabled: true
+    dir: gs://nyc_tlc_data_bucket/spark-events
+  history:
+    fs:
+      logDirectory: gs://nyc_tlc_data_bucket/spark-history
+    ui:
+      port: 18080
+      retainedApplications: 50
+
+performance:
+  broadcast_joins: true
+  adaptive_execution: true
+  cost_based_optimizer: true
+  columnar_execution: true
+  dynamic_partition_pruning: true
+  reuse_exchange: true
+  vectorized_reader: true
+  whole_stage_codegen: true
+
+tuning:
+  default_parallelism: 200
+  sql_shuffle_partitions: 200
+  memory_offheap_enabled: true
+  memory_offheap_size: 2g
+  speculation_interval: 100ms
+  speculation_multiplier: 1.5
+  storage_level: MEMORY_AND_DISK_SER
+
+security:
+  authentication:
+    enabled: true
+    provider: CUSTOM
+  encryption:
+    enabled: true
+    algorithm: AES
+    key_length: 256
+  acls:
+    enabled: true
+    default_permissions: --rwx------
+  network:
+    timeout: 120s
+    retry_count: 3
+    retry_interval: 3s

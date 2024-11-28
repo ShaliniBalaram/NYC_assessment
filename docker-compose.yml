@@ -1,0 +1,38 @@
+version: '3'
+services:
+  superset:
+    image: apache/superset
+    ports:
+      - "8088:8088"
+    environment:
+      - SUPERSET_SECRET_KEY=your_secret_key_here
+      - SUPERSET_LOAD_EXAMPLES=no
+    volumes:
+      - ./superset_config.py:/app/superset_config.py
+      - superset_home:/app/superset_home
+
+  metabase:
+    image: metabase/metabase
+    ports:
+      - "3000:3000"
+    environment:
+      - MB_DB_TYPE=postgres
+      - MB_DB_DBNAME=metabase
+      - MB_DB_PORT=5432
+      - MB_DB_USER=metabase
+      - MB_DB_PASS=metabase123
+    depends_on:
+      - metabase-db
+
+  metabase-db:
+    image: postgres:13
+    environment:
+      - POSTGRES_DB=metabase
+      - POSTGRES_USER=metabase
+      - POSTGRES_PASSWORD=metabase123
+    volumes:
+      - metabase-data:/var/lib/postgresql/data
+
+volumes:
+  superset_home:
+  metabase-data:
