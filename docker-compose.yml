@@ -5,7 +5,7 @@ services:
     ports:
       - "8088:8088"
     environment:
-      - SUPERSET_SECRET_KEY=your_secret_key_here
+      - SUPERSET_SECRET_KEY=${SUPERSET_SECRET_KEY}
       - SUPERSET_LOAD_EXAMPLES=no
     volumes:
       - ./superset_config.py:/app/superset_config.py

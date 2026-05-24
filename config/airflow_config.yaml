@@ -13,7 +13,7 @@ webserver:
   base_url: http://localhost:8080
   web_server_host: 0.0.0.0
   web_server_port: 8080
-  secret_key: your_secret_key_here
+  secret_key: ${AIRFLOW_SECRET_KEY}
   workers: 4
   worker_class: sync
   expose_config: false
@@ -47,9 +47,9 @@ email:
   email_backend: airflow.utils.email.send_email_smtp
   smtp_host: smtp.gmail.com
   smtp_port: 587
-  smtp_user: your_email@gmail.com
-  smtp_password: your_app_password
-  smtp_mail_from: your_email@gmail.com
+  smtp_user: ${SMTP_USER}
+  smtp_password: ${SMTP_PASSWORD}
+  smtp_mail_from: ${SMTP_MAIL_FROM}
 
 metrics:
   statsd_on: true
@@ -91,7 +91,7 @@ dags:
   default_args:
     owner: airflow
     depends_on_past: false
-    email: your_email@gmail.com
+    email: ${ALERT_EMAIL}
     email_on_failure: true
     email_on_retry: false
     retries: 1
@@ -115,11 +115,11 @@ connections:
   azure_connection:
     conn_id: azure_default
     conn_type: azure
-    login: your_client_id
-    password: your_client_secret
+    login: ${AZURE_CLIENT_ID}
+    password: ${AZURE_CLIENT_SECRET}
     extra:
-      tenant_id: your_tenant_id
-      subscription_id: your_subscription_id
+      tenant_id: ${AZURE_TENANT_ID}
+      subscription_id: ${AZURE_SUBSCRIPTION_ID}
 
 variables:
   environment: production

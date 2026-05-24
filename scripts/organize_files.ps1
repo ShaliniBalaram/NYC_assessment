@@ -44,10 +44,10 @@ BUCKET_NAME=nyc_tlc_data_bucket
 DATASET_ID=nyc_tlc_data
 
 # Azure Settings
-AZURE_TENANT_ID=your_tenant_id
-AZURE_SUBSCRIPTION_ID=your_subscription_id
-AZURE_CLIENT_ID=your_client_id
-AZURE_CLIENT_SECRET=your_client_secret
+AZURE_TENANT_ID=
+AZURE_SUBSCRIPTION_ID=
+AZURE_CLIENT_ID=
+AZURE_CLIENT_SECRET=
 
 # Apache Airflow
 AIRFLOW_HOME=/opt/airflow
@@ -62,8 +62,8 @@ SUPERSET_PORT=8088
 METABASE_PORT=3000
 
 # Monitoring
-SLACK_WEBHOOK_URL=your_slack_webhook_url
-ALERT_EMAIL=your_email@example.com
+SLACK_WEBHOOK_URL=
+ALERT_EMAIL=
 "@ | Out-File -FilePath ".env.example" -Encoding UTF8
 
 # Create requirements-dev.txt

@@ -1,13 +1,13 @@
 {
-    "host": "3514622572056789.9.gcp.databricks.com",
+    "host": "${DATABRICKS_HOST}",
     "notebook_path": "/Shared/nyc_tlc_processing",
-    "cluster_id": "PASTE_YOUR_CLUSTER_ID_HERE",
+    "cluster_id": "${DATABRICKS_CLUSTER_ID}",
     "google_service_account": {
         "type": "service_account",
-        "project_id": "scenic-flux-441021-t4",
-        "private_key_id": "777aa30cd3f70fc3ff8a2070aa2785f526223d83",
-        "private_key": "YOUR_PRIVATE_KEY",
-        "client_email": "YOUR_SERVICE_ACCOUNT_EMAIL",
-        "client_id": "YOUR_CLIENT_ID"
+        "project_id": "${GCP_PROJECT_ID}",
+        "private_key_id": "${GCP_PRIVATE_KEY_ID}",
+        "private_key": "${GCP_PRIVATE_KEY}",
+        "client_email": "${GCP_CLIENT_EMAIL}",
+        "client_id": "${GCP_CLIENT_ID}"
     }
 }

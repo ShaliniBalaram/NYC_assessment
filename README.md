@@ -85,8 +85,8 @@ nyc_tlc_pipeline/
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/nyc-tlc-pipeline.git
-   cd nyc-tlc-pipeline
+   git clone https://github.com/ShaliniBalaram/NYC_assessment.git
+   cd NYC_assessment
    ```
 
 2. Set up Python environment:

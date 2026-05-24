@@ -20,12 +20,12 @@ This project adheres to a Code of Conduct that all contributors are expected to 
 1. Fork the repository
 2. Clone your fork:
    ```bash
-   git clone https://github.com/your-username/nyc-tlc-pipeline.git
-   cd nyc-tlc-pipeline
+   git clone https://github.com/ShaliniBalaram/NYC_assessment.git
+   cd NYC_assessment
    ```
 3. Add the upstream repository:
    ```bash
-   git remote add upstream https://github.com/original-owner/nyc-tlc-pipeline.git
+   git remote add upstream https://github.com/ShaliniBalaram/NYC_assessment.git
    ```
 
 ## Development Setup
