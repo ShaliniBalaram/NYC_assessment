@@ -2,6 +2,15 @@
 
 A comprehensive data processing and visualization solution for New York City Taxi & Limousine Commission (TLC) trip records using cloud technologies and distributed computing frameworks.
 
+This project is a data-engineering portfolio piece: it shows how batch ingestion, orchestration, distributed processing, data quality checks, warehouse tables, and dashboard outputs can be organized for a large open transportation dataset.
+
+## Skills Demonstrated
+
+- Airflow-style orchestration and pipeline structure
+- Spark processing patterns for trip-record analytics
+- BigQuery/Synapse-oriented data modeling
+- Dashboard-ready aggregate outputs and deployment documentation
+
 ## Features
 
 - Automated data ingestion from NYC TLC website
